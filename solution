@@ -1,0 +1,32 @@
+#solución:
+defmodule Bowling do
+  # gutter game
+  def score([]), do: 0
+
+  # all ones game 
+  def score([[f, s] | rest]) when f + s < 10 do
+    f + s + score(rest)
+  end
+
+  # one spare
+  def score([[f, s] | rest]) when f + s == 10 do
+    [[next, _] | _] = rest
+    10 + next + score(rest)
+  end
+
+  # one strike
+  def score([[10, nil] | rest]) do
+    bonus =
+      case rest do
+        [[10, nil] | [[x, _] | _]] -> 10 + x
+        [[x, y] | _] -> x + y
+      end
+
+    10 + bonus + score(rest)
+  end
+
+  # perfect game 
+  def score([[a, b, c]]) do
+    (a || 0) + (b || 0) + (c || 0)
+  end
+end
